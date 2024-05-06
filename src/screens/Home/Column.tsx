@@ -1,11 +1,4 @@
-import {
-  FC,
-  DragEvent,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { FC, DragEvent, Dispatch, SetStateAction } from "react";
 import Task from "./Task";
 import { useTaskStore } from "../../store/store";
 import { TaskStatus } from "../../store/types";
