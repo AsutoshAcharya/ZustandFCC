@@ -6,9 +6,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   task: SingleTask;
 }
 const Task: FC<Props> = ({ task, ...rest }) => {
-  const { deleteTask } = useTaskStore((store) => {
-    return { deleteTask: store.deleteTask, moveTask: store.moveTask };
-  });
+  const { deleteTask } = useTaskStore();
   return (
     <div
       className="bg-white text-black rounded min-h-[5rem] p-1 break-words flex-col justify-between cursor-grab"

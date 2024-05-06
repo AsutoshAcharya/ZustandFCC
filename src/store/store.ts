@@ -17,7 +17,7 @@ const useTaskStore = create<
   devtools(
     persist(
       (set, get) => ({
-        tasks: [{ title: "learn zustand", status: "planned", id: "2.3232" }],
+        tasks: [],
         getSpecificTasks: (status) =>
           get().tasks.filter((task) => task.status === status),
         addTask: (task) => {

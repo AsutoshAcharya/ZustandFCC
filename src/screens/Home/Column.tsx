@@ -9,10 +9,7 @@ interface Props {
   setId: Dispatch<SetStateAction<string>>;
 }
 const Column: FC<Props> = ({ state, id, setId }) => {
-  const { tasks, moveTask } = useTaskStore((store) => ({
-    tasks: store.getSpecificTasks(state),
-    moveTask: store.moveTask,
-  }));
+  const { moveTask, getSpecificTasks } = useTaskStore();
   return (
     <div
       className="bg-gray-700 min-h-[20rem] text-white w-1/3 max-w-[20rem] m-0 mr-[1rem] p-1.5 gap-1 flex flex-col"
@@ -30,7 +27,7 @@ const Column: FC<Props> = ({ state, id, setId }) => {
       <p className="w-full text-center bg-purple-700 rounded-md">
         {state.toUpperCase()}
       </p>
-      {tasks.map((task) => (
+      {getSpecificTasks(state).map((task) => (
         <Task
           key={task.id}
           task={task}

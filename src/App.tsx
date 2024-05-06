@@ -10,7 +10,7 @@ export const statuses = ["planned", "ongoing", "done"];
 
 function App() {
   const [task, setTask] = useState<string>("");
-  const addTaskToStore = useTaskStore((store) => store.addTask);
+  const { addTask } = useTaskStore();
   const [id, setId] = useState<string>("");
 
   return (
@@ -19,7 +19,7 @@ function App() {
         className="flex content-center justify-center w-full gap-2 p-2"
         onSubmit={(e) => {
           e.preventDefault();
-          addTaskToStore({
+          addTask({
             id: Math.floor(Math.random() * 10000).toString(),
             title: task,
             status: "planned",
