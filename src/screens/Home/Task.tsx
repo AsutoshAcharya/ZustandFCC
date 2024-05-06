@@ -1,11 +1,12 @@
 import { FC } from "react";
+import { Task as SingleTask } from "../../store/types";
 interface Props {
-  title: string;
+  task: SingleTask;
 }
-const Task: FC<Props> = ({ title }) => {
+const Task: FC<Props> = ({ task }) => {
   return (
     <div className=" bg-white text-black rounded min-h-[5rem] p-1 break-words">
-      {title}
+      {task.title}
     </div>
   );
 };
