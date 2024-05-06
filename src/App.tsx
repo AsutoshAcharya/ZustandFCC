@@ -19,7 +19,7 @@ function App() {
         onSubmit={(e) => {
           e.preventDefault();
           addTaskToStore({
-            id: (Math.random() * 10000).toString(),
+            id: Math.floor(Math.random() * 10000).toString(),
             title: task,
             status: "planned",
           });
