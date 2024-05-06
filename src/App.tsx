@@ -1,13 +1,18 @@
-import { useState } from 'react'
+//local imports
+import "./App.css";
+import "./index.css";
+import Column from "./screens/Home/Column";
 
-import './App.css'
-import "./index.css"
+const states = ["PLANNED", "ONGOING", "DONE"];
+
 function App() {
   return (
-    <>
-  <h1 className='text-3xl font-bold underline'>app</h1>
-    </>
-  )
+    <div className="flex content-center justify-center w-screen h-screen font-sans bg-slate-500">
+      {states.map((state) => (
+        <Column key={state} state={state} />
+      ))}
+    </div>
+  );
 }
 
-export default App
+export default App;
