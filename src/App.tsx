@@ -6,7 +6,7 @@ import Column from "./screens/Home/Column";
 import { TaskStatus } from "./store/types";
 import { useTaskStore } from "./store/store";
 
-const states = ["planned", "ongoing", "done"];
+export const statuses = ["planned", "ongoing", "done"];
 
 function App() {
   const [task, setTask] = useState<string>("");
@@ -41,8 +41,8 @@ function App() {
         </button>
       </form>
       <div className="flex content-center justify-center w-full h-full">
-        {states.map((state) => (
-          <Column key={state} state={state as TaskStatus} />
+        {statuses.map((status) => (
+          <Column key={status} state={status as TaskStatus} />
         ))}
       </div>
     </div>
