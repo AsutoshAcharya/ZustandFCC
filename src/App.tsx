@@ -1,6 +1,5 @@
 //local imports
 import { useState } from "react";
-import "./App.css";
 import "./index.css";
 import Column from "./screens/Home/Column";
 import { TaskStatus } from "./store/types";
