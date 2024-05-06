@@ -11,6 +11,7 @@ export const statuses = ["planned", "ongoing", "done"];
 function App() {
   const [task, setTask] = useState<string>("");
   const addTaskToStore = useTaskStore((store) => store.addTask);
+  const [id, setId] = useState<string>("");
 
   return (
     <div className="flex flex-col w-screen h-screen font-sans bg-slate-500">
@@ -42,7 +43,12 @@ function App() {
       </form>
       <div className="flex content-center justify-center w-full h-full">
         {statuses.map((status) => (
-          <Column key={status} state={status as TaskStatus} />
+          <Column
+            key={status}
+            state={status as TaskStatus}
+            id={id}
+            setId={setId}
+          />
         ))}
       </div>
     </div>

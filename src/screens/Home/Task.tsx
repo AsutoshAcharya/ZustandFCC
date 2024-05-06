@@ -1,18 +1,22 @@
-import { FC } from "react";
-import { Task as SingleTask, TaskStatus } from "../../store/types";
-import { statuses } from "../../App";
+import { FC, HTMLAttributes } from "react";
+import { Task as SingleTask } from "../../store/types";
+// import { statuses } from "../../App";
 import { useTaskStore } from "../../store/store";
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   task: SingleTask;
 }
-const Task: FC<Props> = ({ task }) => {
-  const { deleteTask, moveTask } = useTaskStore((store) => {
+const Task: FC<Props> = ({ task, ...rest }) => {
+  const { deleteTask } = useTaskStore((store) => {
     return { deleteTask: store.deleteTask, moveTask: store.moveTask };
   });
   return (
-    <div className="bg-white text-black rounded min-h-[5rem] p-1 break-words flex-col justify-between">
+    <div
+      className="bg-white text-black rounded min-h-[5rem] p-1 break-words flex-col justify-between cursor-grab"
+      draggable
+      {...rest}
+    >
       <div>{task.title}</div>
-      <div className="flex content-center justify-end w-full gap-1 p-1">
+      {/* <div className="flex content-center justify-end w-full gap-1 p-1">
         {statuses
           .filter((state) => state !== task.status)
           .map((status) => (
@@ -23,10 +27,10 @@ const Task: FC<Props> = ({ task }) => {
               Move To {status.toUpperCase()}
             </button>
           ))}
-      </div>
+      </div> */}
       <div className="flex content-center justify-end w-full p-1">
         <button
-          className="p-1 font-thin text-white bg-red-500 rounded-md"
+          className="p-1 font-thin text-white bg-red-500 rounded-md hover:bg-red-400"
           onClick={() => deleteTask(task.id)}
         >
           Delete
