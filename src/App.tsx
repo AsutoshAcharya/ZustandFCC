@@ -1,5 +1,6 @@
+import { FormEvent, useState } from "react";
+import axios from "axios";
 //local imports
-import { useState } from "react";
 import "./index.css";
 import Column from "./screens/Home/Column";
 import { TaskStatus } from "./store/types";
@@ -11,20 +12,25 @@ function App() {
   const [task, setTask] = useState<string>("");
   const { addTask } = useTaskStore();
   const [id, setId] = useState<string>("");
-
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    const resp = await axios.post("http://localhost:8080/tasks/addTask", {
+      title: task,
+      status: "planned",
+    });
+    console.log(resp);
+    // addTask({
+    //   id: Math.floor(Math.random() * 10000).toString(),
+    //   title: task,
+    //   status: "planned",
+    // });
+    setTask("");
+  }
   return (
     <div className="flex flex-col w-screen h-screen font-sans bg-slate-500">
       <form
         className="flex content-center justify-center w-full gap-2 p-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          addTask({
-            id: Math.floor(Math.random() * 10000).toString(),
-            title: task,
-            status: "planned",
-          });
-          setTask("");
-        }}
+        onSubmit={(e: FormEvent) => handleSubmit(e)}
       >
         <input
           type="text"
