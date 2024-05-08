@@ -1,27 +1,25 @@
-import React, { FormEvent, useState } from "react";
-import { useTaskStore } from "../../store/store";
+import { FormEvent, useState } from "react";
 import { statuses } from "../../App";
 import Column from "./Column";
 import { TaskStatus } from "../../store/types";
-import axios from "axios";
-
+import { apiCall } from "../../helpers/index";
+import { Task } from "../../services/index";
 const Home = () => {
   const [task, setTask] = useState<string>("");
-  const { addTask } = useTaskStore();
   const [id, setId] = useState<string>("");
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const resp = await axios.post("http://localhost:8080/tasks/addTask", {
-      title: task,
-      status: "planned",
+    const apiData = {
+      data: { title: task, status: "planned" },
+    };
+    apiCall({
+      fn: () => Task.addTask(apiData),
+      onSuccess: (resp) => {
+        console.log(resp);
+        setTask("");
+      },
+      onError: () => {},
     });
-    console.log(resp);
-    // addTask({
-    //   id: Math.floor(Math.random() * 10000).toString(),
-    //   title: task,
-    //   status: "planned",
-    // });
-    setTask("");
   }
   return (
     <div className="flex flex-col w-screen h-screen font-sans bg-slate-500">
