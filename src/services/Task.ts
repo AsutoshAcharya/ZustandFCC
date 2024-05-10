@@ -8,4 +8,13 @@ export default class Task {
       instance.post("/tasks/addTask", values.data)
     );
   }
+
+  static getTasks(values: Dict) {
+    return apiPromise(instance, () => instance.get("/tasks/getTasks"));
+  }
+  static deleteTask(values: Dict) {
+    return apiPromise(instance, () =>
+      instance.delete("/tasks/delete/" + values.taskId)
+    );
+  }
 }

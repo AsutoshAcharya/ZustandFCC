@@ -1,12 +1,14 @@
 import { create } from "zustand";
 import { Task, TaskStatus } from "./types";
 import { devtools, persist } from "zustand/middleware";
+import { useQueryClient } from "@tanstack/react-query";
 
 export type StoreState = {
   tasks: Array<Task>;
+  addTaskToStore: (tasks: Array<Task>) => void;
   getSpecificTasks: (status: TaskStatus) => Array<Task>;
   addTask: (task: Task) => void;
-  deleteTask: (id: string) => void;
+  // deleteTask: (id: string) => void; //handled by api
   moveTask: (id: string, status: TaskStatus) => void;
 };
 
@@ -18,15 +20,16 @@ const useTaskStore = create<
     persist(
       (set, get) => ({
         tasks: [],
+        addTaskToStore: (tasks) => set((_store) => ({ tasks })),
         getSpecificTasks: (status) =>
           get().tasks.filter((task) => task.status === status),
         addTask: (task) => {
           set((store) => ({ tasks: [...store.tasks, task] }));
         },
-        deleteTask: (id) =>
-          set((store) => ({
-            tasks: store.tasks.filter((task) => task.id !== id),
-          })),
+        // deleteTask: (id) =>
+        //   set((store) => ({
+        //     tasks: store.tasks.filter((task) => task.id !== id),
+        //   })),
         moveTask: (id, status) =>
           set((store) => ({
             tasks: store.tasks.map((task) => {

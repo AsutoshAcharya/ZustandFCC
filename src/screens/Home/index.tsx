@@ -1,26 +1,53 @@
 import { FormEvent, useState } from "react";
+
+//local imports
 import { statuses } from "../../App";
 import Column from "./Column";
-import { TaskStatus } from "../../store/types";
+import { Task, TaskStatus } from "../../store/types";
 import { apiCall } from "../../helpers/index";
-import { Task } from "../../services/index";
+import { Task as TaskService } from "../../services/index";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Some } from "../../helpers/Some";
+import { useTaskStore } from "../../store/store";
 const Home = () => {
   const [task, setTask] = useState<string>("");
   const [id, setId] = useState<string>("");
+  const { addTaskToStore } = useTaskStore();
+  const client = useQueryClient();
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const apiData = {
       data: { title: task, status: "planned" },
     };
     apiCall({
-      fn: () => Task.addTask(apiData),
-      onSuccess: (resp) => {
-        console.log(resp);
+      fn: () => TaskService.addTask(apiData),
+      onSuccess: () => {
+        client.invalidateQueries(["get-all-tasks"]);
         setTask("");
       },
       onError: () => {},
     });
   }
+
+  async function getAllTasks() {
+    const resp = await TaskService.getTasks({});
+    return resp?.data;
+  }
+
+  useQuery({
+    queryKey: ["get-all-tasks"],
+    queryFn: getAllTasks,
+    refetchOnWindowFocus: false,
+    onSuccess: (data: BackendData) => {
+      const tasks: Array<Task> = Some.Array(data).map((d) => ({
+        id: Some.String(d?.id),
+        title: Some.String(d?.title),
+        status: Some.String(d?.status) as TaskStatus,
+      }));
+      addTaskToStore(tasks);
+    },
+  });
   return (
     <div className="flex flex-col w-screen h-screen font-sans bg-slate-500">
       <form

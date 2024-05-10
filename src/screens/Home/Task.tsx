@@ -1,12 +1,28 @@
 import { FC, HTMLAttributes } from "react";
-import { Task as SingleTask } from "../../store/types";
+import { useQueryClient } from "@tanstack/react-query";
+
+//local imports
 // import { statuses } from "../../App";
-import { useTaskStore } from "../../store/store";
+// import { useTaskStore } from "../../store/store";
+import { Task as SingleTask } from "../../store/types";
+import { Task as TaskService } from "../../services/index";
+import { apiCall } from "../../helpers/index";
+
 interface Props extends HTMLAttributes<HTMLDivElement> {
   task: SingleTask;
 }
 const Task: FC<Props> = ({ task, ...rest }) => {
-  const { deleteTask } = useTaskStore();
+  const client = useQueryClient();
+
+  function deleteTask(id: string) {
+    apiCall({
+      fn: () => TaskService.deleteTask({ taskId: id }),
+      onSuccess: () => {
+        client.invalidateQueries(["get-all-tasks"]);
+      },
+      onError: (d) => console.log(d),
+    });
+  }
   return (
     <div
       className="bg-white text-black rounded min-h-[5rem] p-1 break-words flex-col justify-between cursor-grab"
