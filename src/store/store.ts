@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { Task, TaskStatus } from "./types";
 import { devtools, persist } from "zustand/middleware";
-import { useQueryClient } from "@tanstack/react-query";
 
 export type StoreState = {
   tasks: Array<Task>;
