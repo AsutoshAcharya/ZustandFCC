@@ -8,8 +8,8 @@ export type StoreState = {
   addTaskToStore: (tasks: Array<Task>) => void;
   getSpecificTasks: (status: TaskStatus) => Array<Task>;
   addTask: (task: Task) => void;
-  // deleteTask: (id: string) => void; //handled by api
-  moveTask: (id: string, status: TaskStatus) => void;
+  // deleteTask: (id: string) => void;
+  // moveTask: (id: string, status: TaskStatus) => void; //handled by api
 };
 
 const useTaskStore = create<
@@ -30,13 +30,13 @@ const useTaskStore = create<
         //   set((store) => ({
         //     tasks: store.tasks.filter((task) => task.id !== id),
         //   })),
-        moveTask: (id, status) =>
-          set((store) => ({
-            tasks: store.tasks.map((task) => {
-              if (task.id !== id) return task;
-              return { ...task, status };
-            }),
-          })),
+        // moveTask: (id, status) =>
+        //   set((store) => ({
+        //     tasks: store.tasks.map((task) => {
+        //       if (task.id !== id) return task;
+        //       return { ...task, status };
+        //     }),
+        //   })),
       }),
       { name: "Task-Manager" }
     )

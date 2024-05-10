@@ -17,4 +17,9 @@ export default class Task {
       instance.delete("/tasks/delete/" + values.taskId)
     );
   }
+  static moveTask(values: Dict) {
+    return apiPromise(instance, () =>
+      instance.patch("/tasks/move", values.data)
+    );
+  }
 }
